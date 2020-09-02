@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   templateUrl: './notpagefound.component.html',
   styleUrls: [ './notpagefound.component.css' ]
 })
-export class NotpagefoundComponent implements OnInit {
+export class NotpagefoundComponent {
 
   year = new Date().getFullYear();
 
