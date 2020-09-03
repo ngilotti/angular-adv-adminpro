@@ -1,1 +1,21 @@
-<p>grafica1 works!</p>
+<div class="col-12">
+    <div class="row">
+        <div class="col-6">
+            <app-dona title="Ventas"></app-dona>
+            <!-- enviar al componente titulo,  -->
+            <!-- sino envio titulo 'sin titulo' -->
+        </div>
+        <div class="col-6">
+            <app-dona title="compras" [labels]="labelGraf1" [data]="dataGraf"></app-dona>
+            <!-- labels, data -->
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <app-dona title="Balance"></app-dona>
+        </div>
+        <div class="col-6">
+            <app-dona title="Crecimiento"></app-dona>
+        </div>
+    </div>
+</div>
