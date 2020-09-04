@@ -1,6 +1,7 @@
 // Modulos de Angular
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 // Components
 import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
@@ -24,7 +25,8 @@ import { RightSidebarComponent } from './right-sidebar/right-sidebar.component';
     RightSidebarComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    RouterModule
   ]
 })
 export class SharedModule { }
