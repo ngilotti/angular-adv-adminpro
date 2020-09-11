@@ -10,14 +10,12 @@ import { AuthModule } from './auth/auth.module';
 // Components
 import { AppComponent } from './app.component';
 import { NotpagefoundComponent } from './notpagefound/notpagefound.component';
-import { DonaComponent } from './compontets/dona/dona.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     NotpagefoundComponent,
-    DonaComponent
   ],
   imports: [
     BrowserModule,
