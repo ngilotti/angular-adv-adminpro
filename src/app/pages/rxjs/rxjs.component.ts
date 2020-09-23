@@ -32,7 +32,7 @@ export class RxjsComponent implements OnDestroy{
 
     return interval(200)
             .pipe(
-              // take(10),
+              take(10),
               map( valor => valor + 1 ), // 0 => 1
               filter( valor => ( valor % 2 === 0) ? true : false )
             );
