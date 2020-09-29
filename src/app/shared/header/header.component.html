@@ -157,19 +157,23 @@
                 <!-- Profile -->
 
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="./assets/images/users/1.jpg" alt="user" class="profile-pic" /></a>
+                    <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img [src]="usuario.imgUrl" alt="user" class="profile-pic img-avatar" /></a>
                     <div class="dropdown-menu dropdown-menu-right animated zoomInRight fast-animated">
                         <ul class="dropdown-user">
                             <li>
                                 <div class="dw-user-box">
-                                    <div class="u-img"><img src="./assets/images/users/1.jpg" alt="user"></div>
+                                    <div class="u-img"><img [src]="usuario.imgUrl" alt="user"></div>
                                     <div class="u-text">
-                                        <h4>Santiago Robra</h4>
-                                        <p class="text-muted">santi@gmail.com</p><a href="pages-profile.html" class="btn btn-rounded btn-danger btn-sm">View Profile</a></div>
+                                        <h4>{{this.usuario.nombre}} </h4>
+                                        <h4> {{usuario.apellido}} </h4>
+                                        <p class="text-muted">
+                                            {{usuario.email | slice:0:"21"}} {{(usuario.email.length > 21)?'...':''}}
+                                        </p>
+                                        <a href="pages-profile.html" class="btn btn-rounded btn-danger btn-sm">View Profile</a></div>
                                 </div>
                             </li>
                             <li role="separator" class="divider"></li>
-                            <li><a href="#"><i class="ti-user"></i> My Profile</a></li>
+                            <li><a routerLink="perfil"><i class="ti-user"></i> Mi Perfil</a></li>
                             <li><a href="#"><i class="ti-wallet"></i> My Balance</a></li>
                             <li><a href="#"><i class="ti-email"></i> Inbox</a></li>
                             <li role="separator" class="divider"></li>

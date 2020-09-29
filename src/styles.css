@@ -9,3 +9,13 @@
 .cursor {
     cursor: pointer;
 }
+
+.img-muestra {
+    width: 300px;
+    height: 300px;
+}
+
+.img-avatar {
+    width: 35px;
+    height: 30px;
+}

@@ -3,6 +3,7 @@ import { Injectable, NgZone } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { tap, map, catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { Observable, of } from 'rxjs';
 
 // Serv de desarrollo
 import { environment } from '../../environments/environment';
@@ -10,11 +11,15 @@ import { environment } from '../../environments/environment';
 // Interfaces
 import { RegisterForm } from '../interfaces/register-form.interface';
 import { LoginForm } from '../interfaces/login-fomr.interface';
-import { Observable, of } from 'rxjs';
+import { PerfilForm } from '../interfaces/perfil-fomr.interface';
 
-const base_url = environment.base_url;
+// Modelos
+import { Usuario } from '../models/usuario.model';
+
+
 
 declare const gapi: any;
+const base_url = environment.base_url;
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +27,7 @@ declare const gapi: any;
 export class UsuarioService {
 
   public auth2: any;
+  public usuario: Usuario;
 
   constructor(private http: HttpClient,
               private router: Router,
@@ -29,6 +35,19 @@ export class UsuarioService {
 
     this.googleInit();
   }// end constructor
+
+
+
+  get token(): string {
+    return localStorage.getItem('token') || '';
+  } // end get token
+
+
+  get uid(): string {
+    return this.usuario.uid || '';
+  }
+
+
 
   googleInit() {
 
@@ -48,23 +67,26 @@ export class UsuarioService {
 
 
 
-
   validarToken(): Observable<boolean> {
-    const token = localStorage.getItem('token') || '';
 
-    return this.http.get(`${base_url}/login/renew`,{ 
+    return this.http.get(`${base_url}/login/renew`, {
       headers: {
-        'x-token': token
+        'x-token': this.token
       }
     }).pipe(
-      tap((resp: any) => {
+      map((resp: any) => {
+
+        const { nombre, apellido, dni, email, google, u_id, role, img = '' } = resp.usuario;
+
+        this.usuario = new Usuario(nombre, apellido, dni, email, '', img, google, role, u_id);
         localStorage.setItem('token', resp.token);
+        return true;
       }),
-      map(resp => true),
       catchError(error => of(false))
     );
 
   } // end validarToken()
+
 
 
   crearUsuario( formData: RegisterForm) {
@@ -79,6 +101,24 @@ export class UsuarioService {
                 );
 
   } // end crearUsuario
+
+
+
+  actualizarPerfil(data: { nombre: string, apellido: string, email: string, dni: number, role: string}) {
+
+    data = {
+      ...data,
+      role: this.usuario.role
+    };
+
+    return this.http.put(`${base_url}/usuarios/${this.uid}`, data, {
+      headers: {
+        'x-token': this.token
+      }
+    });
+
+  } // end actualizarPerfil
+
 
 
   login( formData: LoginForm) {
