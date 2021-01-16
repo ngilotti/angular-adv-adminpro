@@ -1,5 +1,4 @@
-
-// Propios de angular
+// Modulos de angular
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -66,7 +65,7 @@ export class PerfilComponent implements OnInit {
 
       Swal.fire('Guardado', 'Se guardaron los cambios', 'success');
     }, (err) => {
-      Swal.fire('Error', err.error.msg, 'error');
+      Swal.fire('Error aqui', err.error.msg, 'error');
     });
 
   } // end actualizarPerfil

@@ -31,10 +31,10 @@ export class LoginComponent implements OnInit {
   });
 
 
-  constructor(private router: Router,
-              private fb: FormBuilder,
-              private uServ: UsuarioService,
-              private ngZ: NgZone) { }
+  constructor ( private router: Router,
+                private fb:     FormBuilder,
+                private uServ:  UsuarioService,
+                private ngZ:    NgZone ) { }
 
 
   ngOnInit(): void {

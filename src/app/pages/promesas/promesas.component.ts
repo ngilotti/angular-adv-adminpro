@@ -5,13 +5,15 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './promesas.component.html',
   styleUrls: []
 })
+
+
 export class PromesasComponent implements OnInit {
 
   constructor() { }
 
   ngOnInit(): void {
 
-    this.getUsers().then( (usuarios) => {
+    this.getUsers().then( usuarios => {
       console.log(usuarios);
     });
 
@@ -22,6 +24,7 @@ export class PromesasComponent implements OnInit {
     //     reject('Algo salio mal');
     //   }
     // });
+
     // promesa.then( (mensaje) => {
     //   console.log(mensaje);
     // }).catch( error => {
@@ -34,11 +37,11 @@ export class PromesasComponent implements OnInit {
 
   getUsers() {
 
-    return new Promise ( (resolve) => {
+    return new Promise ( resolve => {
 
       fetch('https://reqres.in/api/users')
-      .then( (resp) => resp.json())
-      .then((body) => resolve(body.data))
+      .then( resp => resp.json())
+      .then( body => resolve(body.data))
 
     });
 

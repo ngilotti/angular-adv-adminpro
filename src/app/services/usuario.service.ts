@@ -1,20 +1,22 @@
 // Librerias de angular
 import { Injectable, NgZone } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { tap, map, catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
+
+// Librerias de terceros
+import { tap, map, catchError } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
-// Serv de desarrollo
+// Servidor de desarrollo
 import { environment } from '../../environments/environment';
 
 // Interfaces
 import { RegisterForm } from '../interfaces/register-form.interface';
 import { LoginForm } from '../interfaces/login-fomr.interface';
-import { PerfilForm } from '../interfaces/perfil-fomr.interface';
 
 // Modelos
 import { Usuario } from '../models/usuario.model';
+import { CargarUsuario } from '../interfaces/cargar-usuarios.interfaces';
 
 
 
@@ -37,7 +39,7 @@ export class UsuarioService {
   }// end constructor
 
 
-
+// GETs
   get token(): string {
     return localStorage.getItem('token') || '';
   } // end get token
@@ -48,7 +50,16 @@ export class UsuarioService {
   }
 
 
+  get headers() {
+    return {
+      headers: {
+      'x-token': this.token
+      }
+    };
+  } // get headers
 
+
+// Funciones
   googleInit() {
 
     return new Promise(resolve => {
@@ -66,7 +77,6 @@ export class UsuarioService {
   } // end googleInit
 
 
-
   validarToken(): Observable<boolean> {
 
     return this.http.get(`${base_url}/login/renew`, {
@@ -76,9 +86,9 @@ export class UsuarioService {
     }).pipe(
       map((resp: any) => {
 
-        const { nombre, apellido, dni, email, google, u_id, role, img = '' } = resp.usuario;
+        const { nombre, apellido, dni, email, google, uid, role, img = '' } = resp.usuario;
 
-        this.usuario = new Usuario(nombre, apellido, dni, email, '', img, google, role, u_id);
+        this.usuario = new Usuario(nombre, apellido, dni, email, '', img, google, role, uid);
         localStorage.setItem('token', resp.token);
         return true;
       }),
@@ -86,7 +96,6 @@ export class UsuarioService {
     );
 
   } // end validarToken()
-
 
 
   crearUsuario( formData: RegisterForm) {
@@ -103,22 +112,16 @@ export class UsuarioService {
   } // end crearUsuario
 
 
-
   actualizarPerfil(data: { nombre: string, apellido: string, email: string, dni: number, role: string}) {
 
     data = {
       ...data,
       role: this.usuario.role
-    };
+    }
 
-    return this.http.put(`${base_url}/usuarios/${this.uid}`, data, {
-      headers: {
-        'x-token': this.token
-      }
-    });
+    return this.http.put(`${base_url}/usuarios/${this.uid}`, data, this.headers );
 
   } // end actualizarPerfil
-
 
 
   login( formData: LoginForm) {
@@ -135,7 +138,6 @@ export class UsuarioService {
   } // end login
 
 
-
   loginGoogle( token ) {
 
     return this.http.post(`${base_url}/login/google`, { token })
@@ -146,7 +148,6 @@ export class UsuarioService {
                 );
 
   } // end login
-
 
 
   logout() {
@@ -161,4 +162,41 @@ export class UsuarioService {
 
   } // end logout
 
-}
+
+  cargarUsuario( desde: number = 0) {
+
+    const url = `${base_url}/usuarios?desde=${desde}`;
+    return this.http.get<CargarUsuario>(url, this.headers )
+           .pipe(
+             map( resp => {
+              const usuarios =  resp.usuarios.map(
+                user => new Usuario(user.nombre, user.apellido, user.dni, user.email, '', user.img, user.google, user.role, user.uid),
+                );
+              return {
+                total: resp.total,
+                usuarios
+              };
+             })
+           );
+
+  }// end cargarUsuario
+
+
+  eliminarUsuario( usuario: Usuario) {
+
+    // http://localhost:3000/api/usuarios/uid
+
+    const url = `${base_url}/usuarios/${usuario.uid}`;
+    return this.http.delete(url, this.headers);
+
+  } // end eliminarUsuario
+
+
+  guardarUsuario( usuario : Usuario ) {
+
+    return this.http.put(`${base_url}/usuarios/${usuario.uid}`, usuario, this.headers );
+
+  } // end actualizarPerfil
+
+
+} // end Service

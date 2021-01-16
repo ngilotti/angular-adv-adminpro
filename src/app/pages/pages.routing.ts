@@ -14,6 +14,11 @@ import { PerfilComponent } from './perfil/perfil.component';
 import { ProgressComponent } from './progress/progress.component';
 import { PromesasComponent } from './promesas/promesas.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
+import { UsuariosComponent } from './mantenimientos/usuarios/usuarios.component';
+import { MedicosComponent } from './mantenimientos/medicos/medicos.component';
+
+// Mantenimientos components
+import { HospitalesComponent } from './mantenimientos/hospitales/hospitales.component';
 
 
 const routes: Routes = [
@@ -27,6 +32,7 @@ const routes: Routes = [
         component: PagesComponent,
         canActivate: [AuthGuard],
         children: [
+            // Principal
             {  path: '', component: DashboardComponent, data: { title: 'Dashboard'} },
             {  path: 'account-settings', component: AccountSettingComponent, data: { title: 'Tema'} },
             {  path: 'grafica1', component: Grafica1Component, data: { title: 'Grafica'} },
@@ -34,6 +40,11 @@ const routes: Routes = [
             {  path: 'progress', component: ProgressComponent, data: { title: 'Progres'} },
             {  path: 'promesas', component: PromesasComponent, data: { title: 'Promesas'} },
             {  path: 'rxjs', component: RxjsComponent, data: { title: 'RxJs'} },
+
+            // Mantenimientos
+            {  path: 'usuarios', component: UsuariosComponent, data: { title: 'Usuarios de aplicacion'} },
+            {  path: 'medicos', component: MedicosComponent, data: { title: 'Medicos'} },
+            {  path: 'hospitales', component: HospitalesComponent, data: { title: 'Hospitales'} },
         ]
     }
 ];

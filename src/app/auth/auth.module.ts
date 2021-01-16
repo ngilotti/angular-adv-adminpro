@@ -23,7 +23,6 @@ import { RegisterComponent } from './register/register.component';
   imports: [
     CommonModule,
     RouterModule,
-    RouterModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule
